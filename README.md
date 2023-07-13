@@ -9,7 +9,7 @@
 模拟域名：istio-gin-test.test.com  
 后端API接口：/api/v1/version，/api/v2/version，/api/v3/version  
 
-以下操作都是基于istio已安装至K8s中为前提
+**以下操作都是基于istio已安装至K8s中为前提**
 一、部署istio-gin-test应用
 1.1 创建命名空间
 [root@k8s-master ~]# kubectl create ns istio-gin-test
