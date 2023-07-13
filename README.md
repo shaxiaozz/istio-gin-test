@@ -94,33 +94,39 @@ selector：选择器，用于通过label选择集群中Istio网关的Pod
 ![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/eb9993a3-e624-41a4-90e2-ccdca4b83d49)
 
 v1，v2，v3按钮接口都能正常返回，下面我们将测试下会话亲和性的需求了
-
+***
 ### 三、istio会话亲和性
-3.1 创建DestinationRule
-官网文档：https://istio.io/latest/docs/reference/config/networking/destination-rule/#LoadBalancerSettings
-
+#### 3.1 创建DestinationRule
+官网文档：https://istio.io/latest/docs/reference/config/networking/destination-rule/#LoadBalancerSettings  
+```
 [root@k8s-master istio-gin-test]# kubectl apply -f istio-gin-test-sticky.yaml
 [root@k8s-master istio-gin-test]# kubectl get destinationrules.networking.istio.io -n istio-gin-test
+```
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/d59c4168-d607-4782-aaca-2e51622c4a30)
 
-
-3.2 测试
+#### 3.2 测试
 浏览器疯狂访问第四个按钮，观测主机名称是否发生变化
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/f5d7a64b-dcc8-408f-b494-4c5ff8b1029c)
+***
 
-
-四、istio 跨域配置
-4.1 新建VirtualService
-由于目前后端的域名为：istio-gin-test.test.com，因此我们要模拟前端跨域的话，得新建一个新域名给到前端：istio-gin-test-cross.test.com
-
+### 四、istio 跨域配置
+#### 4.1 新建VirtualService
+由于目前后端的域名为：istio-gin-test.test.com，因此我们要模拟前端跨域的话，得新建一个新域名给到前端：istio-gin-test-cross.test.com  
+```
 [root@k8s-master istio-gin-test]# kubectl apply -f istio-gin-test-cross-route.yaml
 [root@k8s-master istio-gin-test]# kubectl get virtualservices.networking.istio.io -n istio-gin-test
+```
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/e77f2c0c-8fad-4d63-9566-dc44e10d1042)
 
 浏览器访问新域名，并触发后端请求，存在跨域错误
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/10d1afd9-8df7-4b47-a41d-46b3e1a6b6c4)
 
-4.2 VirtualService配置跨域
-将后端域名的VirtualService添加跨域配置（官网文档：https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy）
-
+#### 4.2 VirtualService配置跨域
+将后端域名的VirtualService添加跨域配置（官网文档：https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy）  
+```
 [root@k8s-master istio-gin-test]# kubectl apply -f istio-gin-test-cross-route-fix.yaml
 [root@k8s-master istio-gin-test]# kubectl get virtualservices.networking.istio.io -n istio-gin-test
-
+```
 浏览器重新访问跨域的域名，跨域问题已解决
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/e3cf6339-fe0a-4663-9900-403352123244)
 
