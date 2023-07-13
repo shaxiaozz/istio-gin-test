@@ -16,18 +16,23 @@
 [root@k8s-master ~]# kubectl create ns istio-gin-test
 [root@k8s-master ~]# kubectl label namespace istio-gin-test istio-injection=enabled  # 打上标签 istio-injection=enabled，自动注入 Sidecar
 ```
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/eac1c505-357f-4216-ae68-7cf59df126fc)
 
-1.2 创建前端应用
-
+#### 1.2 创建前端应用
+```
 [root@k8s-master istio-gin-test]# kubectl apply -f istio-gin-test-fe-deploy.yaml
 [root@k8s-master istio-gin-test]# kubectl get pods -n istio-gin-test
+```
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/c3063432-16a1-42cc-906c-f0de03376d6e)
 
 
-1.3 创建后端应用
-
+#### 1.3 创建后端应用
+```
 [root@k8s-master istio-gin-test]# kubectl apply -f istio-gin-test-deploy.yaml
 [root@k8s-master istio-gin-test]# kubectl get pods -n istio-gin-test -o wide
-
+```
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/7d0b4725-2ecc-4908-ae42-e50786765af7)
+```
 测试后端接口是否正常
 [root@k8s-master istio-gin-test]# curl 10.244.235.230:8080/api/v1/version
 {"message":"Current API version: v1, Current hostname is: istio-gin-test-84cb778764-dfvff"}
@@ -35,23 +40,28 @@
 {"message":"Current API version: v2, Current hostname is: istio-gin-test-84cb778764-dfvff"}
 [root@k8s-master istio-gin-test]# curl 10.244.235.230:8080/api/v3/version
 {"message":"Current API version: v3, Current hostname is: istio-gin-test-84cb778764-dfvff"}
+```
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/3d261cc3-74fc-46ea-bb33-147329d5316e)
+***
 
+### 二、配置istio路由
+基本概念  
+Gateway（Gateway）：   
+servers：定义入口点列表  
+selector：选择器，用于通过label选择集群中Istio网关的Pod  
+虚拟服务（Virtual Service）：  
+定义路由规则，匹配请求  
+描述满足条件的请求去哪里  
+目标规则（Destination Rule）：  
+定义子集、策略  
+描述到达目标的请求怎么处理  
 
-二、配置istio路由
-基本概念
-Gateway（Gateway）： 
-servers：定义入口点列表
-selector：选择器，用于通过label选择集群中Istio网关的Pod
-虚拟服务（Virtual Service）：
-定义路由规则，匹配请求
-描述满足条件的请求去哪里
-目标规则（Destination Rule）：
-定义子集、策略
-描述到达目标的请求怎么处理
-2.1 创建Gateway
-
+#### 2.1 创建Gateway
+```
 [root@k8s-master istio-gin-test]# kubectl apply -f istio-gin-test-gateway.yaml
 [root@k8s-master istio-gin-test]# kubectl get gateway -n istio-gin-test
+```
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/bdff66c2-025e-4a5f-8857-141c56b8ec53)
 
 
 2.2 创建VirtualService
