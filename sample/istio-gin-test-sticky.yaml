@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+    name: istio-gin-test-sticky
+    namespace: istio-gin-test
+spec:
+    host: istio-gin-test
+    trafficPolicy:
+      loadBalancer:
+        consistentHash:
+          httpCookie:
+            name: istio-user
+            ttl: 60s

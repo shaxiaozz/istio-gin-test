@@ -1,9 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>按钮请求示例</title>
+  <title>Button Demo</title>
   <style>
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    
+    .button:hover {
+      background-color: #45a049;
+    }
+    
     #message {
       display: none;
       position: fixed;
@@ -11,58 +25,81 @@
       left: 50%;
       transform: translate(-50%, -50%);
       padding: 20px;
-      background-color: #f1f1f1;
-      border: 1px solid #ccc;
+      background-color: #f2f2f2;
       border-radius: 5px;
-      font-family: Arial, sans-serif;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
 <body>
-  <button id="v1">v1</button>
-  <button id="v2">v2</button>
-  <button id="v3">v3</button>
-  <button id="session">会话亲和性</button>
+  <button class="button" id="v1">v1</button>
+  <button class="button" id="v2">v2</button>
+  <button class="button" id="v3">v3</button>
+  <button class="button" id="affinity">Sticky Session</button>
 
   <div id="message"></div>
 
   <script>
     function showMessage(message) {
-      const messageDiv = document.getElementById('message');
-      messageDiv.innerText = message;
-      messageDiv.style.display = 'block';
+      var messageElement = document.getElementById("message");
+      messageElement.innerText = message;
+      messageElement.style.display = "block";
 
       setTimeout(function() {
-        messageDiv.style.display = 'none';
-      }, 3000);
+        messageElement.style.display = "none";
+      }, 5000); // Hide the message after 3 seconds
     }
 
-    document.getElementById('v1').addEventListener('click', function() {
-      fetch('http://istio-gin-test.test.com/api/v1/version')
-        .then(response => response.json())
-        .then(data => showMessage(data))
-        .catch(error => console.error(error));
+    document.getElementById("v1").addEventListener("click", function() {
+      fetch("http://istio-gin-test.test.com:32554/api/v1/version")
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          showMessage(data.message);
+        })
+        .catch(function(error) {
+          showMessage("Error occurred while fetching data");
+        });
     });
 
-    document.getElementById('v2').addEventListener('click', function() {
-      fetch('http://istio-gin-test.test.com/api/v2/version')
-        .then(response => response.json())
-        .then(data => showMessage(data))
-        .catch(error => console.error(error));
+    document.getElementById("v2").addEventListener("click", function() {
+      fetch("http://istio-gin-test.test.com:32554/api/v2/version")
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          showMessage(data.message);
+        })
+        .catch(function(error) {
+          showMessage("Error occurred while fetching data");
+        });
     });
 
-    document.getElementById('v3').addEventListener('click', function() {
-      fetch('http://istio-gin-test.test.com/api/v3/version')
-        .then(response => response.json())
-        .then(data => showMessage(data))
-        .catch(error => console.error(error));
+    document.getElementById("v3").addEventListener("click", function() {
+      fetch("http://istio-gin-test.test.com:32554/api/v3/version")
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          showMessage(data.message);
+        })
+        .catch(function(error) {
+          showMessage("Error occurred while fetching data");
+        });
     });
 
-    document.getElementById('session').addEventListener('click', function() {
-      fetch('http://istio-gin-test.test.com/api/v1/version')
-        .then(response => response.json())
-        .then(data => showMessage(data))
-        .catch(error => console.error(error));
+    document.getElementById("affinity").addEventListener("click", function() {
+      fetch("http://istio-gin-test.test.com:32554/api/v1/version")
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          showMessage(data.message);
+        })
+        .catch(function(error) {
+          showMessage("Error occurred while fetching data");
+        });
     });
   </script>
 </body>
