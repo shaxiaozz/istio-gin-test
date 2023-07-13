@@ -3,7 +3,7 @@
 1. 同一个域名，需要转发至前后端的Pod上。
 2. 转发至后端多个Pod时，需要配置会话亲和性
 3. 需要配置跨域
----
+
 基于以上需求，我们将使用一个简单的应用模拟下流量，以下是这个应用的相关消息：  
 项目地址：https://github.com/shaxiaozz/istio-gin-test  
 模拟域名：istio-gin-test.test.com  
