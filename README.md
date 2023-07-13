@@ -64,29 +64,38 @@ selector：选择器，用于通过label选择集群中Istio网关的Pod
 ![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/bdff66c2-025e-4a5f-8857-141c56b8ec53)
 
 
-2.2 创建VirtualService
-
+#### 2.2 创建VirtualService
+```
 [root@k8s-master istio-gin-test]# kubectl apply -f istio-gin-test-route.yaml
 [root@k8s-master istio-gin-test]# kubectl get virtualservices.networking.istio.io -n istio-gin-test
+```
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/9878c8e8-b2f6-4a62-9270-b76e52cb1f4f)
 
 
-2.4 浏览器测试访问
-由于我们内部没有LoadBalancer，因此需要将istio-ingressgateway servicename的类型修改为NodePort，参考链接：https://istio.io/latest/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports
+#### 2.3 浏览器测试访问
+由于我们内部没有LoadBalancer，因此需要将istio-ingressgateway servicename的类型修改为NodePort，参考链接：https://istio.io/latest/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports  
+```
 [root@k8s-master istio-gin-test]# kubectl get svc -n istio-ingress
+```
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/14e61d34-0b76-4e98-980d-bb18e06172c2)
 
 
 前端页面访问正常：
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/14286f42-f268-4e47-91dd-70cccc89a26e)
 
 后端V1接口访问正常：
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/b41a7e62-42f5-41e8-9c08-52eed1ea2d92)
 
 
 后端V2接口访问正常：
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/5cf47a52-b21d-4b1c-abd7-655594bec0e4)
 
 后端V3接口访问正常：
+![image](https://github.com/shaxiaozz/istio-gin-test/assets/43721571/eb9993a3-e624-41a4-90e2-ccdca4b83d49)
 
 v1，v2，v3按钮接口都能正常返回，下面我们将测试下会话亲和性的需求了
 
-三、istio会话亲和性
+### 三、istio会话亲和性
 3.1 创建DestinationRule
 官网文档：https://istio.io/latest/docs/reference/config/networking/destination-rule/#LoadBalancerSettings
 
